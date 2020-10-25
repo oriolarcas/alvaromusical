@@ -1,7 +1,7 @@
 import random
-import time
 import tweepy
 import yaml
+import urllib
 
 def tweet(conf, text):
     auth = tweepy.OAuthHandler(conf["CONSUMER_KEY"], conf["CONSUMER_SECRET"])
@@ -15,11 +15,10 @@ if __name__ == '__main__':
     with open('conf.yaml') as conf_file:
         conf = yaml.load(conf_file, Loader=yaml.FullLoader)
         
-    with open('musica.yaml') as tweets_file:
+    with urllib.request.urlopen(conf["TWEETS_YAML_URL"]) as tweets_file:
         tweets = yaml.load(tweets_file, Loader=yaml.FullLoader)
         random.seed()
         t = random.choice(tweets)
         print("Publicant:")
         print(t)
         tweet(conf, t)
-
